@@ -10,9 +10,15 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSidenavModule} from '@angular/material/sidenav';
 
+import {MatListModule} from '@angular/material/list';
+import {MatIconModule} from '@angular/material/icon';
+import {MatCardModule} from '@angular/material/card';
+import { TableComponent } from './pages/table/table.component';
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TableComponent
   ],
   imports: [
     BrowserModule,
@@ -21,7 +27,10 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     MatSidenavModule, 
     MatFormFieldModule, 
     MatSelectModule, 
-    MatButtonModule
+    MatButtonModule,
+    MatListModule,
+    MatIconModule,
+    MatCardModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

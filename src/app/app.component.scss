@@ -308,3 +308,23 @@
   //  flex-direction: column;
   //  align-items: flex-start;
   //}
+
+  mat-drawer {
+    background-color: #125699;
+  }
+
+  mat-drawer-content {
+    height: 1000px;
+  }
+
+  mat-card{
+    background-color: white;
+    margin: 0px 10px 10px 10px;
+  }
+
+  //MatIcons
+
+  .drawer-button {
+    margin:10px
+  }
+
