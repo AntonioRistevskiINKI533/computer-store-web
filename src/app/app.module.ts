@@ -16,6 +16,8 @@ import {MatCardModule} from '@angular/material/card';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { TableComponent } from './pages/table/table.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { CommonHttpRequestInterceptor } from './clients/CommonHttpRequestInterceptor';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,13 @@ import { TableComponent } from './pages/table/table.component';
     MatTableModule,
     MatPaginatorModule,
   ],
-  providers: [],
+  providers: [
+    //MatDatepickerModule,
+    [
+      { provide: HTTP_INTERCEPTORS, useClass: CommonHttpRequestInterceptor, multi: true }
+    ],
+    //{ provide: MAT_DIALOG_DATA, useValue: {} }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
