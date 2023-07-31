@@ -1,5 +1,5 @@
 {
-  "runtime": "Net60",
+  "runtime": "Default",
   "defaultVariables": null,
   "documentGenerator": {
     "fromDocument": {
@@ -13,7 +13,7 @@
       "className": "{controller}Client",
       "moduleName": "",
       "namespace": "",
-      "typeScriptVersion": 2.7,
+      "typeScriptVersion": 4.3,
       "template": "Angular",
       "promiseType": "Promise",
       "httpClass": "HttpClient",
@@ -67,7 +67,7 @@
       "enumNameGeneratorType": null,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": "ComputerStoreClient.g.ts",
+      "output": "UserApiClient.gen.ts",
       "newLineBehavior": "Auto"
     }
   }
