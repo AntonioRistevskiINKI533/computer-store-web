@@ -16,13 +16,14 @@ import {MatCardModule} from '@angular/material/card';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { TableComponent } from './pages/table/table.component';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CommonHttpRequestInterceptor } from './clients/CommonHttpRequestInterceptor';
+import { Client } from './clients/system-api/UserApiClient.gen';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TableComponent
+    TableComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,6 +38,9 @@ import { CommonHttpRequestInterceptor } from './clients/CommonHttpRequestInterce
     MatCardModule,
     MatTableModule,
     MatPaginatorModule,
+    HttpClientModule,
+    //Client,
+    //BrowserModule
   ],
   providers: [
     //MatDatepickerModule,
@@ -44,6 +48,7 @@ import { CommonHttpRequestInterceptor } from './clients/CommonHttpRequestInterce
       { provide: HTTP_INTERCEPTORS, useClass: CommonHttpRequestInterceptor, multi: true }
     ],
     //{ provide: MAT_DIALOG_DATA, useValue: {} }
+    Client
   ],
   bootstrap: [AppComponent]
 })

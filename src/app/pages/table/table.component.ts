@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { DateSaleSumsViewData } from 'src/app/clients/computer-store-client/ComputerStoreClient.g';
+import { DateSaleSumsViewData } from 'src/app/clients/system-api/UserApiClient.gen';
 import { DateSaleSumsViewService } from 'src/app/services/date-sale-sums-view.service';
 
 @Component({

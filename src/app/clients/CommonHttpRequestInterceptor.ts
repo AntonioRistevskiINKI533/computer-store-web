@@ -6,15 +6,13 @@ import {
 import { Observable, of, throwError } from "rxjs";
 import { catchError, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { SnackBarService } from '../services/snack-bar.service';
 
 /** Inject With Credentials into the request */
 @Injectable()
 export class CommonHttpRequestInterceptor implements HttpInterceptor {
 
   constructor(
-    public router: Router,
-    private snackBarService: SnackBarService) {
+    public router: Router) {
 
   }
 

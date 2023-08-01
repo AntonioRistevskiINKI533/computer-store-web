@@ -1,6 +1,6 @@
 import { Observable } from "rxjs";
 import { Injectable } from "@angular/core";
-import { Client, DateSaleSumsViewData } from "../clients/computer-store-client/ComputerStoreClient.g";
+import { Client, DateSaleSumsViewData } from "../clients/system-api/UserApiClient.gen";
 
 @Injectable({
     providedIn: 'root'
