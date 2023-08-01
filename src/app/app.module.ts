@@ -18,7 +18,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import { TableComponent } from './pages/table/table.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CommonHttpRequestInterceptor } from './clients/CommonHttpRequestInterceptor';
-import { Client } from './clients/system-api/UserApiClient.gen';
+import { API_BASE_URL, Client } from './clients/system-api/UserApiClient.gen';
+import { environment } from './environments/environment';
 
 @NgModule({
   declarations: [
@@ -40,12 +41,16 @@ import { Client } from './clients/system-api/UserApiClient.gen';
     MatPaginatorModule,
     HttpClientModule,
     //Client,
-    //BrowserModule
+    BrowserModule
   ],
   providers: [
     //MatDatepickerModule,
     [
-      { provide: HTTP_INTERCEPTORS, useClass: CommonHttpRequestInterceptor, multi: true }
+      { provide: HTTP_INTERCEPTORS, useClass: CommonHttpRequestInterceptor, multi: true },
+      {
+        provide: API_BASE_URL,
+        useValue: environment.apiUrl
+      },
     ],
     //{ provide: MAT_DIALOG_DATA, useValue: {} }
     Client
