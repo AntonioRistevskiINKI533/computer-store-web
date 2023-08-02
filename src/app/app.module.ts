@@ -41,7 +41,7 @@ import { environment } from './environments/environment';
     MatPaginatorModule,
     HttpClientModule,
     //Client,
-    BrowserModule
+    //BrowserModule
   ],
   providers: [
     //MatDatepickerModule,
