@@ -45,6 +45,14 @@ export class DateComponent implements OnInit {
   }
 
   getAll(){
+    if (this.dateFrom != null && this.dateFrom != undefined){
+      this.dateFrom = new Date(this.dateFrom);
+    }
+
+    if (this.dateTo != null && this.dateTo != undefined){
+      this.dateTo = new Date(this.dateTo);
+    }
+
     this._dateSaleSumsViewService.getAll(this.paginator.pageIndex, this.paginator.pageSize, this.dateFrom, this.dateTo).subscribe((data) => {
       this.dataSource = new MatTableDataSource<DateSaleSumsViewData>(data.items!);
       this.totalItems = data.totalItems!;
