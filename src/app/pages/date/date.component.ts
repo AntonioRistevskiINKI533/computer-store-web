@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { DateSaleSumsViewData } from 'src/app/clients/system-api/UserApiClient.gen';
@@ -10,18 +11,31 @@ import { DateSaleSumsViewService } from 'src/app/services/date-sale-sums-view.se
   styleUrls: ['./date.component.scss']
 })
 export class DateComponent implements OnInit {
+
+  @ViewChild('searchNgForm') searchNgForm: NgForm;
+  searchForm: FormGroup;
+
   displayedColumns: string[] = ['date', 'dayOfWeek', 'profit', 'sumOfSales', 'sumOfUnits', 'sumOfTotalSalePrice'];
   dataSource = new MatTableDataSource<DateSaleSumsViewData>();
   totalItems: number
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  dateFrom: Date
-  dateTo: Date
+  dateFrom: Date | undefined
+  dateTo: Date | undefined
 
-  constructor(private dateSaleSumsViewService:DateSaleSumsViewService){ }
+  constructor(
+    private _dateSaleSumsViewService:DateSaleSumsViewService, 
+    private _formBuilder:FormBuilder,
+    ) { }
 
   ngOnInit(): void {
+    this.searchForm = this._formBuilder.group({
+      dateFrom: [''],
+      dateTo: [''],
+      //dateFrom: ['', Validators.required],
+    })
+
   }
 
   ngAfterViewInit() {
@@ -31,8 +45,8 @@ export class DateComponent implements OnInit {
   }
 
   getAll(){
-    this.dateSaleSumsViewService.getAll(this.dateFrom, this.dateTo, this.paginator.pageIndex, this.paginator.pageSize).subscribe((data) => {
-      this.dataSource = new MatTableDataSource<DateSaleSumsViewData>(data.items);
+    this._dateSaleSumsViewService.getAll(this.paginator.pageIndex, this.paginator.pageSize, this.dateFrom, this.dateTo).subscribe((data) => {
+      this.dataSource = new MatTableDataSource<DateSaleSumsViewData>(data.items!);
       this.totalItems = data.totalItems!;
     });
   }

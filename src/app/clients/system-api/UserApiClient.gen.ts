@@ -17,13 +17,13 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 export interface IClient {
     /**
-     * @param dateFrom (optional) 
-     * @param dateTo (optional) 
      * @param pageIndex (optional) 
      * @param pageSize (optional) 
+     * @param dateFrom (optional) 
+     * @param dateTo (optional) 
      * @return Success
      */
-    getAll(dateFrom: Date | undefined, dateTo: Date | undefined, pageIndex: number | undefined, pageSize: number | undefined): Observable<DateSaleSumsViewDataPagedModel>;
+    getAll(pageIndex: number | undefined, pageSize: number | undefined, dateFrom: Date | undefined, dateTo: Date | undefined): Observable<DateSaleSumsViewDataPagedModel>;
     /**
      * @return Success
      */
@@ -42,22 +42,14 @@ export class Client implements IClient {
     }
 
     /**
-     * @param dateFrom (optional) 
-     * @param dateTo (optional) 
      * @param pageIndex (optional) 
      * @param pageSize (optional) 
+     * @param dateFrom (optional) 
+     * @param dateTo (optional) 
      * @return Success
      */
-    getAll(dateFrom: Date | undefined, dateTo: Date | undefined, pageIndex: number | undefined, pageSize: number | undefined): Observable<DateSaleSumsViewDataPagedModel> {
+    getAll(pageIndex: number | undefined, pageSize: number | undefined, dateFrom: Date | undefined, dateTo: Date | undefined): Observable<DateSaleSumsViewDataPagedModel> {
         let url_ = this.baseUrl + "/DateSaleSumsView/GetAll?";
-        if (dateFrom === null)
-            throw new Error("The parameter 'dateFrom' cannot be null.");
-        else if (dateFrom !== undefined)
-            url_ += "dateFrom=" + encodeURIComponent(dateFrom ? "" + dateFrom.toISOString() : "") + "&";
-        if (dateTo === null)
-            throw new Error("The parameter 'dateTo' cannot be null.");
-        else if (dateTo !== undefined)
-            url_ += "dateTo=" + encodeURIComponent(dateTo ? "" + dateTo.toISOString() : "") + "&";
         if (pageIndex === null)
             throw new Error("The parameter 'pageIndex' cannot be null.");
         else if (pageIndex !== undefined)
@@ -66,6 +58,14 @@ export class Client implements IClient {
             throw new Error("The parameter 'pageSize' cannot be null.");
         else if (pageSize !== undefined)
             url_ += "pageSize=" + encodeURIComponent("" + pageSize) + "&";
+        if (dateFrom === null)
+            throw new Error("The parameter 'dateFrom' cannot be null.");
+        else if (dateFrom !== undefined)
+            url_ += "dateFrom=" + encodeURIComponent(dateFrom ? "" + dateFrom.toISOString() : "") + "&";
+        if (dateTo === null)
+            throw new Error("The parameter 'dateTo' cannot be null.");
+        else if (dateTo !== undefined)
+            url_ += "dateTo=" + encodeURIComponent(dateTo ? "" + dateTo.toISOString() : "") + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {

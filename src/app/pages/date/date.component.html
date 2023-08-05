@@ -1,3 +1,30 @@
+<form  [formGroup]="searchForm" #searchNgForm="ngForm">
+
+  <mat-form-field appearance="outline" class="input-field filters">
+    <mat-label>Датум од: </mat-label>
+    <input matInput type="date" [formControlName]="'dateFrom'"
+        [ngModel]="dateFrom | date:'yyyy-MM-dd'"
+        (ngModelChange)="dateFrom = $event">
+  </mat-form-field>
+  
+  <mat-form-field appearance="outline" class="input-field filters">
+    <mat-label>Датум до: </mat-label>
+    <input matInput type="date" [formControlName]="'dateTo'"
+        [ngModel]="dateTo | date:'yyyy-MM-dd'"
+        (ngModelChange)="dateTo = $event">
+  </mat-form-field>
+
+  <button class="searchBtn" (click)="getAll()" mat-raised-button color="primary">
+    <span class="iconify" data-icon="heroicons-outline:search" data-width="30" data-height="30"></span>
+    Пребарај
+  </button>
+  <button class="searchBtn" (click)="searchForm.reset()" mat-raised-button color="primary">
+    <span class="iconify" data-icon="heroicons-outline:x-circle" data-width="30" data-height="30"></span>
+    Ресетирај филтри
+  </button>
+
+</form>
+
 <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource">
   

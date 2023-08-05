@@ -10,8 +10,8 @@ export class DateSaleSumsViewService {
 
     constructor(private computerStoreClient: Client) { }
 
-    getAll(dateFrom: Date | undefined, dateTo: Date | undefined, pageIndex: number | undefined, pageSize: number | undefined): Observable<DateSaleSumsViewDataPagedModel> {
-        return this.computerStoreClient.getAll(dateFrom, dateTo, pageIndex, pageSize);
+    getAll(pageIndex: number | undefined, pageSize: number | undefined, dateFrom: Date | undefined, dateTo: Date | undefined): Observable<DateSaleSumsViewDataPagedModel> {
+        return this.computerStoreClient.getAll(pageIndex, pageSize, dateFrom, dateTo);
     }
 
 }

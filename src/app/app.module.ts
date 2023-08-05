@@ -7,8 +7,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import {MatListModule} from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon';
@@ -40,6 +42,9 @@ import { environment } from './environments/environment';
     MatTableModule,
     MatPaginatorModule,
     HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule 
     //Client,
     //BrowserModule
   ],
