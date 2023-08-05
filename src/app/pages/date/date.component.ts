@@ -64,6 +64,7 @@ export class DateComponent implements OnInit {
         series: [],
         chart: {
           height: 350,
+          //width: 3000,
           type: "line"
         },
         dataLabels: {
@@ -172,6 +173,8 @@ export class DateComponent implements OnInit {
         this.chartOptions.series![2].data.push(this.dataSource.data[i].sumOfUnits as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);
         this.chartOptions.series![3].data.push(this.dataSource.data[i].sumOfTotalSalePrice as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);
       }
+
+      this.chart.render();
     });
   }
 }
