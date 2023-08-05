@@ -5,11 +5,11 @@ import { DateSaleSumsViewData } from 'src/app/clients/system-api/UserApiClient.g
 import { DateSaleSumsViewService } from 'src/app/services/date-sale-sums-view.service';
 
 @Component({
-  selector: 'app-table',
-  templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss']
+  selector: 'app-date',
+  templateUrl: './date.component.html',
+  styleUrls: ['./date.component.scss']
 })
-export class TableComponent implements OnInit {
+export class DateComponent implements OnInit {
   displayedColumns: string[] = ['date', 'dayOfWeek', 'profit', 'sumOfSales', 'sumOfUnits', 'sumOfTotalSalePrice'];
   dataSource = new MatTableDataSource<DateSaleSumsViewData>();
 

@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TableComponent } from './pages/table/table.component';
+import { DateComponent } from './pages/date/date.component';
 
 const routes: Routes = [
-  { path:'table', component: TableComponent}
+  { path:'date', component: DateComponent}
 ];
 
 @NgModule({

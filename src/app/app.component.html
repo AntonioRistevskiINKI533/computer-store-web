@@ -1,5 +1,5 @@
 <mat-drawer-container class="example-container"><!--[hasBackdrop]="hasBackdrop.value"-->
-  <mat-drawer #drawer mode="side" opened="true"><!--[mode]="mode.value"-->
+  <mat-drawer #drawer mode="side" opened="true" class="mat-elevation-z8"><!--[mode]="mode.value"-->
 
     <mat-nav-list>
       <mat-card>
@@ -12,7 +12,7 @@
         <button mat-icon-button matListItemMeta>
            <mat-icon>info</mat-icon>
         </button>
-        <a matListItemTitle href="/table">Продажби по датум</a>
+        <a matListItemTitle href="/date">Продажби по датум</a>
       </mat-list-item>
       <mat-list-item>
         <button mat-icon-button matListItemMeta>
@@ -32,7 +32,7 @@
   <mat-drawer-content>
 
     <!-- Toolbar -->
-    <div class="toolbar" role="banner">
+    <div class="toolbar mat-elevation-z8" role="banner">
       <button mat-icon-button color="accent" (click)="drawer.toggle()" class="drawer-button">
         <mat-icon>menu</mat-icon>
       </button>

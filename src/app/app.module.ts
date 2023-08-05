@@ -15,7 +15,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import { TableComponent } from './pages/table/table.component';
+import { DateComponent } from './pages/date/date.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CommonHttpRequestInterceptor } from './clients/CommonHttpRequestInterceptor';
 import { API_BASE_URL, Client } from './clients/system-api/UserApiClient.gen';
@@ -24,7 +24,7 @@ import { environment } from './environments/environment';
 @NgModule({
   declarations: [
     AppComponent,
-    TableComponent,
+    DateComponent,
   ],
   imports: [
     BrowserModule,
