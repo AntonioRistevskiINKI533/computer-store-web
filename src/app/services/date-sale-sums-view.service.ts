@@ -8,10 +8,10 @@ import { Client, DateSaleSumsViewDataPagedModel } from "../clients/system-api/Us
 
 export class DateSaleSumsViewService {
 
-    constructor(private computerStoreClient: Client) { }
+    constructor(private userApiClient: Client) { }
 
     getAll(pageIndex: number | undefined, pageSize: number | undefined, dateFrom: Date | undefined, dateTo: Date | undefined): Observable<DateSaleSumsViewDataPagedModel> {
-        return this.computerStoreClient.getAll(pageIndex, pageSize, dateFrom, dateTo);
+        return this.userApiClient.getAllDateSales(pageIndex, pageSize, dateFrom, dateTo);
     }
 
 }

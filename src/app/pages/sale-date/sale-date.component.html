@@ -7,14 +7,14 @@
 
     <form  [formGroup]="searchForm" #searchNgForm="ngForm">
 
-      <mat-form-field appearance="outline" class="input-field filters">
+      <mat-form-field appearance="outline">
         <mat-label>Датум од: </mat-label>
         <input matInput type="date" [formControlName]="'dateFrom'"
             [ngModel]="dateFrom | date:'yyyy-MM-dd'"
             (ngModelChange)="dateFrom = $event">
       </mat-form-field>
       
-      <mat-form-field appearance="outline" class="input-field filters">
+      <mat-form-field appearance="outline">
         <mat-label>Датум до: </mat-label>
         <input matInput type="date" [formControlName]="'dateTo'"
             [ngModel]="dateTo | date:'yyyy-MM-dd'"
@@ -114,12 +114,14 @@
 
   </mat-tab>
 
-</mat-tab-group>    <mat-paginator
-[length]="totalItems"
-[pageSizeOptions]="[5, 10, 20, 50, 100]"
-[pageIndex]="0"
-[pageSize]="10"
-(page)="getAll()"
-showFirstLastButtons
-aria-label="Select page of periodic elements">
+</mat-tab-group>    
+
+<mat-paginator
+  [length]="totalItems"
+  [pageSizeOptions]="[5, 10, 20, 50, 100]"
+  [pageIndex]="0"
+  [pageSize]="10"
+  (page)="getAll()"
+  showFirstLastButtons
+  aria-label="Select page of periodic elements">
 </mat-paginator>

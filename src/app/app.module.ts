@@ -18,7 +18,6 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import { DateComponent } from './pages/date/date.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CommonHttpRequestInterceptor } from './clients/CommonHttpRequestInterceptor';
 import { API_BASE_URL, Client } from './clients/system-api/UserApiClient.gen';
@@ -26,10 +25,14 @@ import { environment } from './environments/environment';
 
 import { NgApexchartsModule } from "ng-apexcharts";
 
+import { SaleProductComponent } from './pages/sale-product/sale-product.component';
+import { SaleDateComponent } from './pages/sale-date/sale-date.component';
+
 @NgModule({
   declarations: [
     AppComponent,
-    DateComponent,
+    SaleDateComponent,
+    SaleProductComponent,
   ],
   imports: [
     BrowserModule,

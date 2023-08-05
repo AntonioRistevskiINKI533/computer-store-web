@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { DateSaleSumsViewData } from 'src/app/clients/system-api/UserApiClient.gen';
-import { DateSaleSumsViewService } from 'src/app/services/date-sale-sums-view.service';
+import { ProductSaleSumsAndProfitViewData } from 'src/app/clients/system-api/UserApiClient.gen';
+import { ProductSaleSumsAndProfitViewService } from 'src/app/services/product-sale-sums-and-profit-view';
 
 import {
   ChartComponent,
@@ -34,29 +34,28 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-date',
-  templateUrl: './date.component.html',
-  styleUrls: ['./date.component.scss']
+  selector: 'app-sale-product',
+  templateUrl: './sale-product.component.html',
+  styleUrls: ['./sale-product.component.scss']
 })
-export class DateComponent implements OnInit {
+export class SaleProductComponent implements OnInit {
 
   @ViewChild('searchNgForm') searchNgForm: NgForm;
   searchForm: FormGroup;
 
-  displayedColumns: string[] = ['date', 'dayOfWeek', 'profit', 'sumOfSales', 'sumOfUnits', 'sumOfTotalSalePrice'];
-  dataSource = new MatTableDataSource<DateSaleSumsViewData>();
+  displayedColumns: string[] = ['name', 'profit', 'sumOfSales', 'sumOfUnits', 'sumOfTotalSalePrice'];
+  dataSource = new MatTableDataSource<ProductSaleSumsAndProfitViewData>();
   totalItems: number
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  dateFrom: Date | undefined
-  dateTo: Date | undefined
+  name: string | undefined
 
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
   
   constructor(
-    private _dateSaleSumsViewService:DateSaleSumsViewService, 
+    private _productSaleSumsAndProfitViewService:ProductSaleSumsAndProfitViewService, 
     private _formBuilder:FormBuilder,
     ) 
     { 
@@ -134,8 +133,7 @@ export class DateComponent implements OnInit {
 
   ngOnInit(): void {
     this.searchForm = this._formBuilder.group({
-      dateFrom: [''],
-      dateTo: [''],
+      name: [''],
     })
   }
 
@@ -145,16 +143,8 @@ export class DateComponent implements OnInit {
   }
 
   getAll(){
-    if (this.dateFrom != null && this.dateFrom != undefined){
-      this.dateFrom = new Date(this.dateFrom);
-    }
-
-    if (this.dateTo != null && this.dateTo != undefined){
-      this.dateTo = new Date(this.dateTo);
-    }
-
-    this._dateSaleSumsViewService.getAll(this.paginator.pageIndex, this.paginator.pageSize, this.dateFrom, this.dateTo).subscribe((data) => {
-      this.dataSource = new MatTableDataSource<DateSaleSumsViewData>(data.items!);
+    this._productSaleSumsAndProfitViewService.getAll(this.paginator.pageIndex, this.paginator.pageSize, this.name).subscribe((data) => {
+      this.dataSource = new MatTableDataSource<ProductSaleSumsAndProfitViewData>(data.items!);
       this.totalItems = data.totalItems!;
 
       this.chartOptions.xaxis = {
@@ -167,7 +157,7 @@ export class DateComponent implements OnInit {
       this.chartOptions.series! = [ { name: "Профит", data: [] }, { name: "Трансакции", data: [] }, { name: "Единици", data: [] }, { name: "Приход", data: [] } ]
 
       for (var i = 0; i < this.dataSource.data.length; i++) {
-        this.chartOptions.xaxis?.categories.push(this.dataSource.data[i].date?.toDateString());
+        this.chartOptions.xaxis?.categories.push(this.dataSource.data[i].name);
         this.chartOptions.series![0].data.push(this.dataSource.data[i].profit as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);
         this.chartOptions.series![1].data.push(this.dataSource.data[i].sumOfSales as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);
         this.chartOptions.series![2].data.push(this.dataSource.data[i].sumOfUnits as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);
