@@ -60,6 +60,16 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
+  
+        <mat-paginator
+          [length]="totalItems"
+          [pageSizeOptions]="[5, 10, 20, 50, 100]"
+          [pageIndex]="0"
+          [pageSize]="10"
+          (page)="getAll()"
+          showFirstLastButtons
+          aria-label="Select page of periodic elements">
+        </mat-paginator>
         
       </div>
   
@@ -71,34 +81,15 @@
       <br>
   
       <!--The content below is only a placeholder and can be replaced.-->
-      <!-- <div id="chart">
+      <div id="chart">
         <apx-chart
           [series]="chartOptions.series!"
           [chart]="chartOptions.chart!"
-          [xaxis]="chartOptions.xaxis!"
-          [stroke]="chartOptions.stroke!"
-          [tooltip]="chartOptions.tooltip!"
-          [dataLabels]="chartOptions.dataLabels!"
-          [legend]="chartOptions.legend!"
-          [markers]="chartOptions.markers!"
-          [grid]="chartOptions.grid!"
-          [yaxis]="chartOptions.yaxis!"
-          [title]="chartOptions.title!"
+          [labels]="chartOptions.labels!"
+          [responsive]="chartOptions.responsive!"
         ></apx-chart>
-      </div> -->
-  
-  
+      </div>
   
     </mat-tab>
   
-  </mat-tab-group>    
-  
-  <mat-paginator
-    [length]="totalItems"
-    [pageSizeOptions]="[5, 10, 20, 50, 100]"
-    [pageIndex]="0"
-    [pageSize]="10"
-    (page)="getAll()"
-    showFirstLastButtons
-    aria-label="Select page of periodic elements">
-  </mat-paginator>
+  </mat-tab-group>

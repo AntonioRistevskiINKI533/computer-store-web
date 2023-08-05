@@ -7,30 +7,16 @@ import { ProductSaleSumsAndProfitViewService } from 'src/app/services/product-sa
 
 import {
   ChartComponent,
-  ApexAxisChartSeries,
+  ApexNonAxisChartSeries,
+  ApexResponsive,
   ApexChart,
-  ApexXAxis,
-  ApexDataLabels,
-  ApexStroke,
-  ApexMarkers,
-  ApexYAxis,
-  ApexGrid,
-  ApexTitleSubtitle,
-  ApexLegend
 } from "ng-apexcharts";
 
 export type ChartOptions = {
-  series: ApexAxisChartSeries;
+  series: ApexNonAxisChartSeries;
   chart: ApexChart;
-  xaxis: ApexXAxis;
-  stroke: ApexStroke;
-  dataLabels: ApexDataLabels;
-  markers: ApexMarkers;
-  tooltip: any; // ApexTooltip;
-  yaxis: ApexYAxis;
-  grid: ApexGrid;
-  legend: ApexLegend;
-  title: ApexTitleSubtitle;
+  responsive: ApexResponsive[];
+  labels: any;
 };
 
 @Component({
@@ -60,74 +46,25 @@ export class SaleProductComponent implements OnInit {
     ) 
     { 
       this.chartOptions = {
-        series: [],
+        series: [],//[44, 55, 13, 43, 22],
         chart: {
-          height: 350,
-          //width: 3000,
-          type: "line"
+          width: 380,
+          type: "pie"
         },
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          width: 5,
-          curve: "straight",
-          dashArray: [0, 8, 5]
-        },
-        title: {
-          text: "Page Statistics",
-          align: "left"
-        },
-        legend: {
-          tooltipHoverFormatter: function(val, opts) {
-            return (
-              val +
-              " - <strong>" +
-              opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
-              "</strong>"
-            );
-          }
-        },
-        markers: {
-          size: 0,
-          hover: {
-            sizeOffset: 6
-          }
-        },
-        xaxis: {
-          labels: {
-            trim: false
-          },
-          categories: []
-        },
-        tooltip: {
-          y: [
-            {
-              title: {
-                formatter: function(val: string) {
-                  return val + " (mins)";
-                }
-              }
-            },
-            {
-              title: {
-                formatter: function(val: string) {
-                  return val + " per session";
-                }
-              }
-            },
-            {
-              title: {
-                formatter: function(val: any) {
-                  return val;
-                }
+        labels: [],//["Team A", "Team B", "Team C", "Team D", "Team E"],
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 200
+              },
+              legend: {
+                position: "bottom"
               }
             }
-          ]
-        },
-        grid: {
-          borderColor: "#f1f1f1"
-        }
+          }
+        ]
       };
     }
 
@@ -140,6 +77,15 @@ export class SaleProductComponent implements OnInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.getAll();
+
+    this._productSaleSumsAndProfitViewService.getAll(0, 9999999, "").subscribe((data) => {
+      for (var i = 0; i < data.items!.length; i++) {
+        this.chartOptions.series!.push(data.items![i].profit as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);
+        this.chartOptions.labels!.push(data.items![i].name);
+      }
+      
+      this.chart.render();
+    });
   }
 
   getAll(){
@@ -147,24 +93,12 @@ export class SaleProductComponent implements OnInit {
       this.dataSource = new MatTableDataSource<ProductSaleSumsAndProfitViewData>(data.items!);
       this.totalItems = data.totalItems!;
 
-      this.chartOptions.xaxis = {
-        labels: {
-          trim: false
-        },
-        categories: []
-      }
+      //for (var i = 0; i < this.dataSource.data.length; i++) {
+      //  this.chartOptions.series!.push(this.dataSource.data[i].profit as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);
+      //  this.chartOptions.labels!.push(this.dataSource.data[i].name);
+      //}
 
-      this.chartOptions.series! = [ { name: "Профит", data: [] }, { name: "Трансакции", data: [] }, { name: "Единици", data: [] }, { name: "Приход", data: [] } ]
-
-      for (var i = 0; i < this.dataSource.data.length; i++) {
-        this.chartOptions.xaxis?.categories.push(this.dataSource.data[i].name);
-        this.chartOptions.series![0].data.push(this.dataSource.data[i].profit as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);
-        this.chartOptions.series![1].data.push(this.dataSource.data[i].sumOfSales as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);
-        this.chartOptions.series![2].data.push(this.dataSource.data[i].sumOfUnits as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);
-        this.chartOptions.series![3].data.push(this.dataSource.data[i].sumOfTotalSalePrice as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);
-      }
-
-      this.chart.render();
+      //this.chart.render();
     });
   }
 }
