@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MatTabsModule} from '@angular/material/tabs';
 
 import {MatListModule} from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon';
@@ -22,6 +23,8 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CommonHttpRequestInterceptor } from './clients/CommonHttpRequestInterceptor';
 import { API_BASE_URL, Client } from './clients/system-api/UserApiClient.gen';
 import { environment } from './environments/environment';
+
+import { NgApexchartsModule } from "ng-apexcharts";
 
 @NgModule({
   declarations: [
@@ -44,9 +47,12 @@ import { environment } from './environments/environment';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    MatInputModule 
+    MatInputModule,
+    BrowserModule,
+    NgApexchartsModule,
+    MatTabsModule
+    //CanvasJSAngularChartsModule,
     //Client,
-    //BrowserModule
   ],
   providers: [
     //MatDatepickerModule,

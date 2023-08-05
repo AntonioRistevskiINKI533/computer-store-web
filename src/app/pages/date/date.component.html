@@ -1,82 +1,124 @@
-<form  [formGroup]="searchForm" #searchNgForm="ngForm">
+<mat-tab-group>
 
-  <mat-form-field appearance="outline" class="input-field filters">
-    <mat-label>Датум од: </mat-label>
-    <input matInput type="date" [formControlName]="'dateFrom'"
-        [ngModel]="dateFrom | date:'yyyy-MM-dd'"
-        (ngModelChange)="dateFrom = $event">
-  </mat-form-field>
-  
-  <mat-form-field appearance="outline" class="input-field filters">
-    <mat-label>Датум до: </mat-label>
-    <input matInput type="date" [formControlName]="'dateTo'"
-        [ngModel]="dateTo | date:'yyyy-MM-dd'"
-        (ngModelChange)="dateTo = $event">
-  </mat-form-field>
+  <mat-tab label="Табела">
 
-  <button class="searchBtn" (click)="getAll()" mat-raised-button color="primary">
-    <mat-icon>search</mat-icon>
-    Пребарај
-  </button>
-  <button class="searchBtn" (click)="searchForm.reset()" mat-raised-button color="primary">
-    <mat-icon>clear</mat-icon>
-    Ресетирај филтри
-  </button>
+    <br>
+    <br>
 
-</form>
+    <form  [formGroup]="searchForm" #searchNgForm="ngForm">
 
-<div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource">
-  
-      <!-- date Column -->
-      <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef> Датум </th>
-        <td mat-cell *matCellDef="let element"> {{element.date | date:'dd/MM/yyyy'}} </td>
-      </ng-container>
-  
-      <!-- dayOfWeek Column -->
-      <ng-container matColumnDef="dayOfWeek">
-        <th mat-header-cell *matHeaderCellDef> Ден </th>
-        <td mat-cell *matCellDef="let element"> 
-          <span *ngIf="element.dayOfWeek == 1">Понеделник</span>
-          <span *ngIf="element.dayOfWeek == 2">Вторник</span>
-          <span *ngIf="element.dayOfWeek == 3">Среда</span>
-          <span *ngIf="element.dayOfWeek == 4">Четврток</span>
-          <span *ngIf="element.dayOfWeek == 5">Петок</span>
-          <span *ngIf="element.dayOfWeek == 6">Сабота</span>
-          <span *ngIf="element.dayOfWeek == 7">Недела</span>
-          <!-- {{element.dayOfWeek}}  -->
-        </td>
-      </ng-container>
-  
-      <!-- profit Column -->
-      <ng-container matColumnDef="profit">
-        <th mat-header-cell *matHeaderCellDef> Профит </th>
-        <td mat-cell *matCellDef="let element"> {{element.profit}} </td>
-      </ng-container>
-  
-      <!-- sumOfSales Column -->
-      <ng-container matColumnDef="sumOfSales">
-        <th mat-header-cell *matHeaderCellDef> Трансакции </th>
-        <td mat-cell *matCellDef="let element"> {{element.sumOfSales}} </td>
-      </ng-container>
-  
-      <!-- sumOfUnits Column -->
-      <ng-container matColumnDef="sumOfUnits">
-        <th mat-header-cell *matHeaderCellDef> Единици </th>
-        <td mat-cell *matCellDef="let element"> {{element.sumOfUnits}} </td>
-      </ng-container>
-  
-      <!-- sumOfTotalSalePrice Column -->
-      <ng-container matColumnDef="sumOfTotalSalePrice">
-        <th mat-header-cell *matHeaderCellDef> Приход </th>
-        <td mat-cell *matCellDef="let element"> {{element.sumOfTotalSalePrice}} ден. </td>
-      </ng-container>
-  
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-  
+      <mat-form-field appearance="outline" class="input-field filters">
+        <mat-label>Датум од: </mat-label>
+        <input matInput type="date" [formControlName]="'dateFrom'"
+            [ngModel]="dateFrom | date:'yyyy-MM-dd'"
+            (ngModelChange)="dateFrom = $event">
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline" class="input-field filters">
+        <mat-label>Датум до: </mat-label>
+        <input matInput type="date" [formControlName]="'dateTo'"
+            [ngModel]="dateTo | date:'yyyy-MM-dd'"
+            (ngModelChange)="dateTo = $event">
+      </mat-form-field>
+
+      <button class="searchBtn" (click)="getAll()" mat-raised-button color="primary">
+        <mat-icon>search</mat-icon>
+        Пребарај
+      </button>
+      <button class="searchBtn" (click)="searchForm.reset()" mat-raised-button color="primary">
+        <mat-icon>clear</mat-icon>
+        Ресетирај филтри
+      </button>
+
+    </form>
+
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource">
+    
+        <!-- date Column -->
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef> Датум </th>
+          <td mat-cell *matCellDef="let element"> {{element.date | date:'dd/MM/yyyy'}} </td>
+        </ng-container>
+    
+        <!-- dayOfWeek Column -->
+        <ng-container matColumnDef="dayOfWeek">
+          <th mat-header-cell *matHeaderCellDef> Ден </th>
+          <td mat-cell *matCellDef="let element"> 
+            <span *ngIf="element.dayOfWeek == 1">Понеделник</span>
+            <span *ngIf="element.dayOfWeek == 2">Вторник</span>
+            <span *ngIf="element.dayOfWeek == 3">Среда</span>
+            <span *ngIf="element.dayOfWeek == 4">Четврток</span>
+            <span *ngIf="element.dayOfWeek == 5">Петок</span>
+            <span *ngIf="element.dayOfWeek == 6">Сабота</span>
+            <span *ngIf="element.dayOfWeek == 7">Недела</span>
+            <!-- {{element.dayOfWeek}}  -->
+          </td>
+        </ng-container>
+    
+        <!-- profit Column -->
+        <ng-container matColumnDef="profit">
+          <th mat-header-cell *matHeaderCellDef> Профит </th>
+          <td mat-cell *matCellDef="let element"> {{element.profit}} </td>
+        </ng-container>
+    
+        <!-- sumOfSales Column -->
+        <ng-container matColumnDef="sumOfSales">
+          <th mat-header-cell *matHeaderCellDef> Трансакции </th>
+          <td mat-cell *matCellDef="let element"> {{element.sumOfSales}} </td>
+        </ng-container>
+    
+        <!-- sumOfUnits Column -->
+        <ng-container matColumnDef="sumOfUnits">
+          <th mat-header-cell *matHeaderCellDef> Единици </th>
+          <td mat-cell *matCellDef="let element"> {{element.sumOfUnits}} </td>
+        </ng-container>
+    
+        <!-- sumOfTotalSalePrice Column -->
+        <ng-container matColumnDef="sumOfTotalSalePrice">
+          <th mat-header-cell *matHeaderCellDef> Приход </th>
+          <td mat-cell *matCellDef="let element"> {{element.sumOfTotalSalePrice}} ден. </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    
+      <mat-paginator 
+        [length]="totalItems"
+        [pageSizeOptions]="[5, 10, 20, 50, 100]"
+        [pageIndex]="0"
+        [pageSize]="10"
+        (page)="getAll()"
+        showFirstLastButtons
+        aria-label="Select page of periodic elements">
+      </mat-paginator>
+    </div>
+
+  </mat-tab>
+
+  <mat-tab label="Граф">
+    
+    <br>
+    <br>
+
+    <!--The content below is only a placeholder and can be replaced.-->
+    <div id="chart">
+      <apx-chart
+        [series]="chartOptions.series!"
+        [chart]="chartOptions.chart!"
+        [xaxis]="chartOptions.xaxis!"
+        [stroke]="chartOptions.stroke!"
+        [tooltip]="chartOptions.tooltip!"
+        [dataLabels]="chartOptions.dataLabels!"
+        [legend]="chartOptions.legend!"
+        [markers]="chartOptions.markers!"
+        [grid]="chartOptions.grid!"
+        [yaxis]="chartOptions.yaxis!"
+        [title]="chartOptions.title!"
+      ></apx-chart>
+    </div>
+
     <mat-paginator 
       [length]="totalItems"
       [pageSizeOptions]="[5, 10, 20, 50, 100]"
@@ -86,4 +128,7 @@
       showFirstLastButtons
       aria-label="Select page of periodic elements">
     </mat-paginator>
-  </div>
+
+  </mat-tab>
+
+</mat-tab-group>
