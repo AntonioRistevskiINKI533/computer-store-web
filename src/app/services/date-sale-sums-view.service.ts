@@ -1,6 +1,6 @@
 import { Observable } from "rxjs";
 import { Injectable } from "@angular/core";
-import { Client, DateSaleSumsViewData } from "../clients/system-api/UserApiClient.gen";
+import { Client, DateSaleSumsViewDataPagedModel } from "../clients/system-api/UserApiClient.gen";
 
 @Injectable({
     providedIn: 'root'
@@ -10,8 +10,8 @@ export class DateSaleSumsViewService {
 
     constructor(private computerStoreClient: Client) { }
 
-    getAll(implementedProgramId: number, pageIndex: number, pageSize: number): Observable<DateSaleSumsViewData[]> {
-        return this.computerStoreClient.getAll(implementedProgramId, pageIndex, pageSize);
+    getAll(dateFrom: Date | undefined, dateTo: Date | undefined, pageIndex: number | undefined, pageSize: number | undefined): Observable<DateSaleSumsViewDataPagedModel> {
+        return this.computerStoreClient.getAll(dateFrom, dateTo, pageIndex, pageSize);
     }
 
 }

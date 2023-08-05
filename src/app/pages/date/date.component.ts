@@ -12,8 +12,12 @@ import { DateSaleSumsViewService } from 'src/app/services/date-sale-sums-view.se
 export class DateComponent implements OnInit {
   displayedColumns: string[] = ['date', 'dayOfWeek', 'profit', 'sumOfSales', 'sumOfUnits', 'sumOfTotalSalePrice'];
   dataSource = new MatTableDataSource<DateSaleSumsViewData>();
+  totalItems: number
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  dateFrom: Date
+  dateTo: Date
 
   constructor(private dateSaleSumsViewService:DateSaleSumsViewService){ }
 
@@ -23,8 +27,13 @@ export class DateComponent implements OnInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
 
-    this.dateSaleSumsViewService.getAll(1,10,10).subscribe((data) => {
-      this.dataSource = new MatTableDataSource<DateSaleSumsViewData>(data);
+    this.getAll();
+  }
+
+  getAll(){
+    this.dateSaleSumsViewService.getAll(this.dateFrom, this.dateTo, this.paginator.pageIndex, this.paginator.pageSize).subscribe((data) => {
+      this.dataSource = new MatTableDataSource<DateSaleSumsViewData>(data.items);
+      this.totalItems = data.totalItems!;
     });
   }
 }
