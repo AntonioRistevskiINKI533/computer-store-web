@@ -21,7 +21,10 @@ button {
 //chart
 
 #chart {
-    max-width: 650px;
-    margin: 35px auto;
+    //max-width: 650px;
+    //margin: 35px auto;
   }
   
+::ng-deep .apexcharts-legend {
+    left:150px;//this makes pie chart show
+}
