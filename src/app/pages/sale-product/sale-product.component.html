@@ -90,27 +90,27 @@
           [responsive]="chartOptions.responsive!"
         ></apx-chart>
       </div>
-  
+
+      <button (click)="getAllForPieChart('profit')" mat-raised-button color="primary">
+        <mat-icon>attach_money</mat-icon>
+        Профит
+      </button>
+    
+      <button (click)="getAllForPieChart('sumOfTotalSalePrice')" mat-raised-button color="primary">
+        <mat-icon>money</mat-icon>
+        Приход
+      </button>
+    
+      <button (click)="getAllForPieChart('sumOfSales')" mat-raised-button color="primary">
+        <mat-icon>transform</mat-icon>
+        Број на трансакции
+      </button>
+    
+      <button (click)="getAllForPieChart('sumOfUnits')" mat-raised-button color="primary">
+        <mat-icon>laptop</mat-icon>
+        Продаени единици
+      </button>
+
     </mat-tab>
   
   </mat-tab-group>
-
-  <button (click)="getAllForPieChart('profit')" mat-raised-button color="primary">
-    <mat-icon>attach_money</mat-icon>
-    Профит
-  </button>
-
-  <button (click)="getAllForPieChart('sumOfTotalSalePrice')" mat-raised-button color="primary">
-    <mat-icon>money</mat-icon>
-    Приход
-  </button>
-
-  <button (click)="getAllForPieChart('sumOfSales')" mat-raised-button color="primary">
-    <mat-icon>transform</mat-icon>
-    Број на трансакции
-  </button>
-
-  <button (click)="getAllForPieChart('sumOfUnits')" mat-raised-button color="primary">
-    <mat-icon>laptop</mat-icon>
-    Продаени единици
-  </button>
