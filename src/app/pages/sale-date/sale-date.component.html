@@ -21,11 +21,12 @@
             (ngModelChange)="dateTo = $event">
       </mat-form-field>
 
-      <button class="searchBtn" (click)="getAll()" mat-raised-button color="primary">
+      <button (click)="getAll()" mat-raised-button color="primary">
         <mat-icon>search</mat-icon>
         Пребарај
       </button>
-      <button class="searchBtn" (click)="searchForm.reset()" mat-raised-button color="primary">
+      
+      <button (click)="searchForm.reset()" mat-raised-button color="primary">
         <mat-icon>clear</mat-icon>
         Ресетирај филтри
       </button>

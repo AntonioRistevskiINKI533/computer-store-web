@@ -49,7 +49,7 @@ export class SaleProductComponent implements OnInit {
         series: [],//[44, 55, 13, 43, 22],
         chart: {
           width: 1200,
-          height: 400,
+          height: 480,
           type: "pie"
         },
         labels: [],//["Team A", "Team B", "Team C", "Team D", "Team E"],
@@ -78,15 +78,7 @@ export class SaleProductComponent implements OnInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.getAll();
-
-    this._productSaleSumsAndProfitViewService.getAll(0, 9999999, "").subscribe((data) => {
-      for (var i = 0; i < data.items!.length; i++) {
-        this.chartOptions.series!.push(data.items![i].profit as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);
-        this.chartOptions.labels!.push(data.items![i].name);
-      }
-      
-      this.chart.render();
-    });
+    this.getAllForPieChart("profit");
   }
 
   getAll(){
@@ -100,6 +92,34 @@ export class SaleProductComponent implements OnInit {
       //}
 
       //this.chart.render();
+    });
+  }
+
+  getAllForPieChart(column: string){
+    this._productSaleSumsAndProfitViewService.getAll(0, 9999999, "").subscribe((data) => {
+
+      this.chartOptions.series! = [];
+      this.chartOptions.labels! = [];
+
+      for (var i = 0; i < data.items!.length; i++) {
+
+        if (column == "profit") {
+          this.chartOptions.series!.push(data.items![i].profit as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);
+        }
+        else if (column == "sumOfSales") {
+          this.chartOptions.series!.push(data.items![i].sumOfSales as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);
+        }
+        else if (column == "sumOfTotalSalePrice") {
+          this.chartOptions.series!.push(data.items![i].sumOfTotalSalePrice as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);
+        }
+        else if (column == "sumOfUnits") {
+          this.chartOptions.series!.push(data.items![i].sumOfUnits as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);
+        }
+
+        this.chartOptions.labels!.push(data.items![i].name);
+      }
+      
+      this.chart.render();
     });
   }
 }
