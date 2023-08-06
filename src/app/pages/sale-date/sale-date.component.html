@@ -1,7 +1,7 @@
 <mat-tab-group>
 
   <mat-tab label="Табела">
-
+    
     <br>
     <br>
 
@@ -20,7 +20,7 @@
             [ngModel]="dateTo | date:'yyyy-MM-dd'"
             (ngModelChange)="dateTo = $event">
       </mat-form-field>
-
+  
       <button (click)="getAll()" mat-raised-button color="primary">
         <mat-icon>search</mat-icon>
         Пребарај
@@ -30,7 +30,7 @@
         <mat-icon>clear</mat-icon>
         Ресетирај филтри
       </button>
-
+  
     </form>
 
     <div class="mat-elevation-z8">
@@ -93,6 +93,34 @@
     
     <br>
     <br>
+
+    <form  [formGroup]="searchForm" #searchNgForm="ngForm">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Датум од: </mat-label>
+        <input matInput type="date" [formControlName]="'dateFrom'"
+            [ngModel]="dateFrom | date:'yyyy-MM-dd'"
+            (ngModelChange)="dateFrom = $event">
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline">
+        <mat-label>Датум до: </mat-label>
+        <input matInput type="date" [formControlName]="'dateTo'"
+            [ngModel]="dateTo | date:'yyyy-MM-dd'"
+            (ngModelChange)="dateTo = $event">
+      </mat-form-field>
+  
+      <button (click)="getAll()" mat-raised-button color="primary">
+        <mat-icon>search</mat-icon>
+        Пребарај
+      </button>
+      
+      <button (click)="searchForm.reset()" mat-raised-button color="primary">
+        <mat-icon>clear</mat-icon>
+        Ресетирај филтри
+      </button>
+  
+    </form>
 
     <!--The content below is only a placeholder and can be replaced.-->
     <div id="chart">
