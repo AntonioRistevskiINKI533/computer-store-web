@@ -23,6 +23,14 @@ export interface IClient {
      * @param dateTo (optional) 
      * @return Success
      */
+    getAllDatePurchases(pageIndex: number | undefined, pageSize: number | undefined, dateFrom: Date | undefined, dateTo: Date | undefined): Observable<DatePurchaseSumsViewDataPagedModel>;
+    /**
+     * @param pageIndex (optional) 
+     * @param pageSize (optional) 
+     * @param dateFrom (optional) 
+     * @param dateTo (optional) 
+     * @return Success
+     */
     getAllDateSales(pageIndex: number | undefined, pageSize: number | undefined, dateFrom: Date | undefined, dateTo: Date | undefined): Observable<DateSaleSumsViewDataPagedModel>;
     /**
      * @param pageIndex (optional) 
@@ -58,8 +66,8 @@ export class Client implements IClient {
      * @param dateTo (optional) 
      * @return Success
      */
-    getAllDateSales(pageIndex: number | undefined, pageSize: number | undefined, dateFrom: Date | undefined, dateTo: Date | undefined): Observable<DateSaleSumsViewDataPagedModel> {
-        let url_ = this.baseUrl + "/DateSaleSumsView/GetAllDateSales?";
+    getAllDatePurchases(pageIndex: number | undefined, pageSize: number | undefined, dateFrom: Date | undefined, dateTo: Date | undefined): Observable<DatePurchaseSumsViewDataPagedModel> {
+        let url_ = this.baseUrl + "/DatePurchaseSumsView/GetAllDatePurchases?";
         if (pageIndex === null)
             throw new Error("The parameter 'pageIndex' cannot be null.");
         else if (pageIndex !== undefined)
@@ -73,7 +81,78 @@ export class Client implements IClient {
         else if (dateFrom !== undefined)
             url_ += "dateFrom=" + encodeURIComponent(dateFrom ? "" + dateFrom.toISOString() : "") + "&";
         if (dateTo === null)
-            url_ += "dateFrom=" + encodeURIComponent(dateFrom ? "" + dateFrom : "") + "&";
+            url_ += "dateTo=" + encodeURIComponent(dateTo ? "" + dateTo : "") + "&";
+        else if (dateTo !== undefined)
+            url_ += "dateTo=" + encodeURIComponent(dateTo ? "" + dateTo.toISOString() : "") + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllDatePurchases(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllDatePurchases(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<DatePurchaseSumsViewDataPagedModel>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<DatePurchaseSumsViewDataPagedModel>;
+        }));
+    }
+
+    protected processGetAllDatePurchases(response: HttpResponseBase): Observable<DatePurchaseSumsViewDataPagedModel> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = DatePurchaseSumsViewDataPagedModel.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DatePurchaseSumsViewDataPagedModel>(null as any);
+    }
+
+    /**
+     * @param pageIndex (optional) 
+     * @param pageSize (optional) 
+     * @param dateFrom (optional) 
+     * @param dateTo (optional) 
+     * @return Success
+     */
+    getAllDateSales(pageIndex: number | undefined, pageSize: number | undefined, dateFrom: Date | undefined, dateTo: Date | undefined): Observable<DateSaleSumsViewDataPagedModel> {
+        let url_ = this.baseUrl + "/DateSaleSumsView/GetAllDateSales?";
+        if (pageIndex === null)
+            throw new Error("The parameter 'pageIndex' cannot be null.");
+        else if (pageIndex !== undefined)
+            url_ += "pageIndex=" + encodeURIComponent("" + pageIndex) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "pageSize=" + encodeURIComponent("" + pageSize) + "&";
+        if (dateFrom === null)
+        url_ += "dateFrom=" + encodeURIComponent(dateFrom ? "" + dateFrom : "") + "&";
+        else if (dateFrom !== undefined)
+            url_ += "dateFrom=" + encodeURIComponent(dateFrom ? "" + dateFrom.toISOString() : "") + "&";
+        if (dateTo === null)
+        url_ += "dateTo=" + encodeURIComponent(dateTo ? "" + dateTo : "") + "&";
         else if (dateTo !== undefined)
             url_ += "dateTo=" + encodeURIComponent(dateTo ? "" + dateTo.toISOString() : "") + "&";
         url_ = url_.replace(/[?&]$/, "");
@@ -253,6 +332,110 @@ export class Client implements IClient {
         }
         return _observableOf<SupplierPurchaseSumsViewDataPagedModel>(null as any);
     }
+}
+
+export class DatePurchaseSumsViewData implements IDatePurchaseSumsViewData {
+    dateId?: number;
+    date?: Date;
+    dayOfWeek?: number;
+    sumOfPurchases?: number;
+    sumOfUnits?: number;
+    sumOfTotalPurchasePrice?: number;
+
+    constructor(data?: IDatePurchaseSumsViewData) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.dateId = _data["dateId"];
+            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>undefined;
+            this.dayOfWeek = _data["dayOfWeek"];
+            this.sumOfPurchases = _data["sumOfPurchases"];
+            this.sumOfUnits = _data["sumOfUnits"];
+            this.sumOfTotalPurchasePrice = _data["sumOfTotalPurchasePrice"];
+        }
+    }
+
+    static fromJS(data: any): DatePurchaseSumsViewData {
+        data = typeof data === 'object' ? data : {};
+        let result = new DatePurchaseSumsViewData();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["dateId"] = this.dateId;
+        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
+        data["dayOfWeek"] = this.dayOfWeek;
+        data["sumOfPurchases"] = this.sumOfPurchases;
+        data["sumOfUnits"] = this.sumOfUnits;
+        data["sumOfTotalPurchasePrice"] = this.sumOfTotalPurchasePrice;
+        return data;
+    }
+}
+
+export interface IDatePurchaseSumsViewData {
+    dateId?: number;
+    date?: Date;
+    dayOfWeek?: number;
+    sumOfPurchases?: number;
+    sumOfUnits?: number;
+    sumOfTotalPurchasePrice?: number;
+}
+
+export class DatePurchaseSumsViewDataPagedModel implements IDatePurchaseSumsViewDataPagedModel {
+    totalItems?: number;
+    items?: DatePurchaseSumsViewData[] | undefined;
+
+    constructor(data?: IDatePurchaseSumsViewDataPagedModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalItems = _data["totalItems"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(DatePurchaseSumsViewData.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): DatePurchaseSumsViewDataPagedModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new DatePurchaseSumsViewDataPagedModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalItems"] = this.totalItems;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IDatePurchaseSumsViewDataPagedModel {
+    totalItems?: number;
+    items?: DatePurchaseSumsViewData[] | undefined;
 }
 
 export class DateSaleSumsViewData implements IDateSaleSumsViewData {

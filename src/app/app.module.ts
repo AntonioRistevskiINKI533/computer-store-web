@@ -28,6 +28,7 @@ import { NgApexchartsModule } from "ng-apexcharts";
 import { SaleProductComponent } from './pages/sale-product/sale-product.component';
 import { SaleDateComponent } from './pages/sale-date/sale-date.component';
 import { PurchaseSupplierComponent } from './pages/purchase-supplier/purchase-supplier.component';
+import { PurchaseDateComponent } from './pages/purchase-date/purchase-date.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { PurchaseSupplierComponent } from './pages/purchase-supplier/purchase-su
     SaleDateComponent,
     SaleProductComponent,
     PurchaseSupplierComponent,
+    PurchaseDateComponent
   ],
   imports: [
     BrowserModule,
