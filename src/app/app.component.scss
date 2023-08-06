@@ -314,7 +314,7 @@
   }
 
   mat-drawer-content {
-    height: 750px;
+    height: 750px;//vidi so max min height
   }
 
   mat-card{
@@ -326,4 +326,10 @@
 
   .drawer-button {
     margin:10px
+  }
+  
+  //content
+  
+  .content {
+    max-width:2000px;
   }

@@ -48,7 +48,8 @@ export class SaleProductComponent implements OnInit {
       this.chartOptions = {
         series: [],//[44, 55, 13, 43, 22],
         chart: {
-          width: 380,
+          width: 1200,
+          height: 400,
           type: "pie"
         },
         labels: [],//["Team A", "Team B", "Team C", "Team D", "Team E"],
