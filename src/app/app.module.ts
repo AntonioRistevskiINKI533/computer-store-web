@@ -27,12 +27,14 @@ import { NgApexchartsModule } from "ng-apexcharts";
 
 import { SaleProductComponent } from './pages/sale-product/sale-product.component';
 import { SaleDateComponent } from './pages/sale-date/sale-date.component';
+import { PurchaseSupplierComponent } from './pages/purchase-supplier/purchase-supplier.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SaleDateComponent,
     SaleProductComponent,
+    PurchaseSupplierComponent,
   ],
   imports: [
     BrowserModule,
