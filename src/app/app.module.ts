@@ -29,6 +29,7 @@ import { SaleProductComponent } from './pages/sale-product/sale-product.componen
 import { SaleDateComponent } from './pages/sale-date/sale-date.component';
 import { PurchaseSupplierComponent } from './pages/purchase-supplier/purchase-supplier.component';
 import { PurchaseDateComponent } from './pages/purchase-date/purchase-date.component';
+import { PurchaseProductComponent } from './pages/purchase-product/purchase-product.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { PurchaseDateComponent } from './pages/purchase-date/purchase-date.compo
     SaleDateComponent,
     SaleProductComponent,
     PurchaseSupplierComponent,
-    PurchaseDateComponent
+    PurchaseDateComponent,
+    PurchaseProductComponent,
   ],
   imports: [
     BrowserModule,

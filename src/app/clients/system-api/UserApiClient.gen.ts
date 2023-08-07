@@ -38,6 +38,13 @@ export interface IClient {
      * @param name (optional) 
      * @return Success
      */
+    getAllProductPurchases(pageIndex: number | undefined, pageSize: number | undefined, name: string | undefined): Observable<ProductPurchaseSumsViewDataPagedModel>;
+    /**
+     * @param pageIndex (optional) 
+     * @param pageSize (optional) 
+     * @param name (optional) 
+     * @return Success
+     */
     getAllProductSales(pageIndex: number | undefined, pageSize: number | undefined, name: string | undefined): Observable<ProductSaleSumsAndProfitViewDataPagedModel>;
     /**
      * @param pageIndex (optional) 
@@ -148,11 +155,11 @@ export class Client implements IClient {
         else if (pageSize !== undefined)
             url_ += "pageSize=" + encodeURIComponent("" + pageSize) + "&";
         if (dateFrom === null)
-        url_ += "dateFrom=" + encodeURIComponent(dateFrom ? "" + dateFrom : "") + "&";
+            url_ += "dateFrom=" + encodeURIComponent(dateFrom ? "" + dateFrom : "") + "&";
         else if (dateFrom !== undefined)
             url_ += "dateFrom=" + encodeURIComponent(dateFrom ? "" + dateFrom.toISOString() : "") + "&";
         if (dateTo === null)
-        url_ += "dateTo=" + encodeURIComponent(dateTo ? "" + dateTo : "") + "&";
+            url_ += "dateTo=" + encodeURIComponent(dateTo ? "" + dateTo : "") + "&";
         else if (dateTo !== undefined)
             url_ += "dateTo=" + encodeURIComponent(dateTo ? "" + dateTo.toISOString() : "") + "&";
         url_ = url_.replace(/[?&]$/, "");
@@ -199,6 +206,72 @@ export class Client implements IClient {
             }));
         }
         return _observableOf<DateSaleSumsViewDataPagedModel>(null as any);
+    }
+
+    /**
+     * @param pageIndex (optional) 
+     * @param pageSize (optional) 
+     * @param name (optional) 
+     * @return Success
+     */
+    getAllProductPurchases(pageIndex: number | undefined, pageSize: number | undefined, name: string | undefined): Observable<ProductPurchaseSumsViewDataPagedModel> {
+        let url_ = this.baseUrl + "/ProductPurchaseSumsView/GetAllProductPurchases?";
+        if (pageIndex === null)
+            throw new Error("The parameter 'pageIndex' cannot be null.");
+        else if (pageIndex !== undefined)
+            url_ += "pageIndex=" + encodeURIComponent("" + pageIndex) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "pageSize=" + encodeURIComponent("" + pageSize) + "&";
+        if (name === null)
+            throw new Error("The parameter 'name' cannot be null.");
+        else if (name !== undefined)
+            url_ += "name=" + encodeURIComponent("" + name) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllProductPurchases(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllProductPurchases(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ProductPurchaseSumsViewDataPagedModel>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ProductPurchaseSumsViewDataPagedModel>;
+        }));
+    }
+
+    protected processGetAllProductPurchases(response: HttpResponseBase): Observable<ProductPurchaseSumsViewDataPagedModel> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ProductPurchaseSumsViewDataPagedModel.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ProductPurchaseSumsViewDataPagedModel>(null as any);
     }
 
     /**
@@ -544,6 +617,106 @@ export class DateSaleSumsViewDataPagedModel implements IDateSaleSumsViewDataPage
 export interface IDateSaleSumsViewDataPagedModel {
     totalItems?: number;
     items?: DateSaleSumsViewData[] | undefined;
+}
+
+export class ProductPurchaseSumsViewData implements IProductPurchaseSumsViewData {
+    productId?: number;
+    name?: string | undefined;
+    sumOfPurchases?: number;
+    sumOfUnits?: number;
+    sumOfTotalPurchasePrice?: number;
+
+    constructor(data?: IProductPurchaseSumsViewData) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.productId = _data["productId"];
+            this.name = _data["name"];
+            this.sumOfPurchases = _data["sumOfPurchases"];
+            this.sumOfUnits = _data["sumOfUnits"];
+            this.sumOfTotalPurchasePrice = _data["sumOfTotalPurchasePrice"];
+        }
+    }
+
+    static fromJS(data: any): ProductPurchaseSumsViewData {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProductPurchaseSumsViewData();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["productId"] = this.productId;
+        data["name"] = this.name;
+        data["sumOfPurchases"] = this.sumOfPurchases;
+        data["sumOfUnits"] = this.sumOfUnits;
+        data["sumOfTotalPurchasePrice"] = this.sumOfTotalPurchasePrice;
+        return data;
+    }
+}
+
+export interface IProductPurchaseSumsViewData {
+    productId?: number;
+    name?: string | undefined;
+    sumOfPurchases?: number;
+    sumOfUnits?: number;
+    sumOfTotalPurchasePrice?: number;
+}
+
+export class ProductPurchaseSumsViewDataPagedModel implements IProductPurchaseSumsViewDataPagedModel {
+    totalItems?: number;
+    items?: ProductPurchaseSumsViewData[] | undefined;
+
+    constructor(data?: IProductPurchaseSumsViewDataPagedModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalItems = _data["totalItems"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(ProductPurchaseSumsViewData.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ProductPurchaseSumsViewDataPagedModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProductPurchaseSumsViewDataPagedModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalItems"] = this.totalItems;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IProductPurchaseSumsViewDataPagedModel {
+    totalItems?: number;
+    items?: ProductPurchaseSumsViewData[] | undefined;
 }
 
 export class ProductSaleSumsAndProfitViewData implements IProductSaleSumsAndProfitViewData {
