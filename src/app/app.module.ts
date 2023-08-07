@@ -30,6 +30,7 @@ import { SaleDateComponent } from './pages/sale-date/sale-date.component';
 import { PurchaseSupplierComponent } from './pages/purchase-supplier/purchase-supplier.component';
 import { PurchaseDateComponent } from './pages/purchase-date/purchase-date.component';
 import { PurchaseProductComponent } from './pages/purchase-product/purchase-product.component';
+import { SaleCityComponent } from './pages/sale-city/sale-city.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { PurchaseProductComponent } from './pages/purchase-product/purchase-prod
     PurchaseSupplierComponent,
     PurchaseDateComponent,
     PurchaseProductComponent,
+    SaleCityComponent
   ],
   imports: [
     BrowserModule,

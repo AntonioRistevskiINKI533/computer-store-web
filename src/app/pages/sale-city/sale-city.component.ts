@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { ProductPurchaseSumsViewData, ProductSaleSumsAndProfitViewData } from 'src/app/clients/system-api/UserApiClient.gen';
-import { ProductSaleSumsAndProfitViewService } from 'src/app/services/product-sale-sums-and-profit-view';
+import { CitySaleSumsViewData, ProductSaleSumsAndProfitViewData } from 'src/app/clients/system-api/UserApiClient.gen';
+import { CitySaleSumsViewService } from 'src/app/services/city-sale-sums-view.service';
 
 import {
   ChartComponent,
@@ -11,7 +11,6 @@ import {
   ApexResponsive,
   ApexChart,
 } from "ng-apexcharts";
-import { ProductPurchaseSumsViewService } from 'src/app/services/product-purchase-sums-view';
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -21,17 +20,17 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-purchase-product',
-  templateUrl: './purchase-product.component.html',
-  styleUrls: ['./purchase-product.component.scss']
+  selector: 'app-sale-city',
+  templateUrl: './sale-city.component.html',
+  styleUrls: ['./sale-city.component.scss']
 })
-export class PurchaseProductComponent implements OnInit {
+export class SaleCityComponent implements OnInit {
 
   @ViewChild('searchNgForm') searchNgForm: NgForm;
   searchForm: FormGroup;
 
   displayedColumns: string[] = ['name', 'profit', 'sumOfSales', 'sumOfUnits', 'sumOfTotalSalePrice'];
-  dataSource = new MatTableDataSource<ProductPurchaseSumsViewData>();
+  dataSource = new MatTableDataSource<CitySaleSumsViewData>();
   totalItems: number
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -42,7 +41,7 @@ export class PurchaseProductComponent implements OnInit {
   public chartOptions: Partial<ChartOptions>;
   
   constructor(
-    private _productPurchaseSumsViewService:ProductPurchaseSumsViewService, 
+    private _citySaleSumsViewService:CitySaleSumsViewService, 
     private _formBuilder:FormBuilder,
     ) 
     { 
@@ -83,8 +82,8 @@ export class PurchaseProductComponent implements OnInit {
   }
 
   getAll(){
-    this._productPurchaseSumsViewService.getAll(this.paginator.pageIndex, this.paginator.pageSize, this.name).subscribe((data) => {
-      this.dataSource = new MatTableDataSource<ProductPurchaseSumsViewData>(data.items!);
+    this._citySaleSumsViewService.getAll(this.paginator.pageIndex, this.paginator.pageSize, this.name).subscribe((data) => {
+      this.dataSource = new MatTableDataSource<CitySaleSumsViewData>(data.items!);
       this.totalItems = data.totalItems!;
 
       //for (var i = 0; i < this.dataSource.data.length; i++) {
@@ -97,18 +96,21 @@ export class PurchaseProductComponent implements OnInit {
   }
 
   getAllForPieChart(column: string){
-    this._productPurchaseSumsViewService.getAll(0, 9999999, "").subscribe((data) => {
+    this._citySaleSumsViewService.getAll(0, 9999999, "").subscribe((data) => {
 
       this.chartOptions.series! = [];
       this.chartOptions.labels! = [];
 
       for (var i = 0; i < data.items!.length; i++) {
 
-        if (column == "sumOfPurchases") {
-          this.chartOptions.series!.push(data.items![i].sumOfPurchases as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);
+        if (column == "profit") {
+          this.chartOptions.series!.push(data.items![i].profit as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);
         }
-        else if (column == "sumOfTotalPurchasePrice") {
-          this.chartOptions.series!.push(data.items![i].sumOfTotalPurchasePrice as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);
+        else if (column == "sumOfSales") {
+          this.chartOptions.series!.push(data.items![i].sumOfSales as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);
+        }
+        else if (column == "sumOfTotalSalePrice") {
+          this.chartOptions.series!.push(data.items![i].sumOfTotalSalePrice as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);
         }
         else if (column == "sumOfUnits") {
           this.chartOptions.series!.push(data.items![i].sumOfUnits as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);

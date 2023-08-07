@@ -5,6 +5,7 @@ import { SaleProductComponent } from './pages/sale-product/sale-product.componen
 import { PurchaseSupplierComponent } from './pages/purchase-supplier/purchase-supplier.component';
 import { PurchaseDateComponent } from './pages/purchase-date/purchase-date.component';
 import { PurchaseProductComponent } from './pages/purchase-product/purchase-product.component';
+import { SaleCityComponent } from './pages/sale-city/sale-city.component';
 
 const routes: Routes = [
   { path:'sale-date', component: SaleDateComponent},
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path:'purchase-supplier', component: PurchaseSupplierComponent},
   { path:'purchase-date', component: PurchaseDateComponent},
   { path:'purchase-product', component: PurchaseProductComponent},
+  { path:'sale-city', component: SaleCityComponent},
 ];
 
 @NgModule({

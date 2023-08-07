@@ -19,6 +19,13 @@ export interface IClient {
     /**
      * @param pageIndex (optional) 
      * @param pageSize (optional) 
+     * @param name (optional) 
+     * @return Success
+     */
+    getAllCitySales(pageIndex: number | undefined, pageSize: number | undefined, name: string | undefined): Observable<CitySaleSumsViewDataPagedModel>;
+    /**
+     * @param pageIndex (optional) 
+     * @param pageSize (optional) 
      * @param dateFrom (optional) 
      * @param dateTo (optional) 
      * @return Success
@@ -69,6 +76,72 @@ export class Client implements IClient {
     /**
      * @param pageIndex (optional) 
      * @param pageSize (optional) 
+     * @param name (optional) 
+     * @return Success
+     */
+    getAllCitySales(pageIndex: number | undefined, pageSize: number | undefined, name: string | undefined): Observable<CitySaleSumsViewDataPagedModel> {
+        let url_ = this.baseUrl + "/CitySaleSumsView/GetAllCitySales?";
+        if (pageIndex === null)
+            throw new Error("The parameter 'pageIndex' cannot be null.");
+        else if (pageIndex !== undefined)
+            url_ += "pageIndex=" + encodeURIComponent("" + pageIndex) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "pageSize=" + encodeURIComponent("" + pageSize) + "&";
+        if (name === null)
+            throw new Error("The parameter 'name' cannot be null.");
+        else if (name !== undefined)
+            url_ += "name=" + encodeURIComponent("" + name) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllCitySales(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllCitySales(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<CitySaleSumsViewDataPagedModel>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<CitySaleSumsViewDataPagedModel>;
+        }));
+    }
+
+    protected processGetAllCitySales(response: HttpResponseBase): Observable<CitySaleSumsViewDataPagedModel> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = CitySaleSumsViewDataPagedModel.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CitySaleSumsViewDataPagedModel>(null as any);
+    }
+
+    /**
+     * @param pageIndex (optional) 
+     * @param pageSize (optional) 
      * @param dateFrom (optional) 
      * @param dateTo (optional) 
      * @return Success
@@ -84,11 +157,11 @@ export class Client implements IClient {
         else if (pageSize !== undefined)
             url_ += "pageSize=" + encodeURIComponent("" + pageSize) + "&";
         if (dateFrom === null)
-            url_ += "dateFrom=" + encodeURIComponent(dateFrom ? "" + dateFrom : "") + "&";
+            throw new Error("The parameter 'dateFrom' cannot be null.");
         else if (dateFrom !== undefined)
             url_ += "dateFrom=" + encodeURIComponent(dateFrom ? "" + dateFrom.toISOString() : "") + "&";
         if (dateTo === null)
-            url_ += "dateTo=" + encodeURIComponent(dateTo ? "" + dateTo : "") + "&";
+            throw new Error("The parameter 'dateTo' cannot be null.");
         else if (dateTo !== undefined)
             url_ += "dateTo=" + encodeURIComponent(dateTo ? "" + dateTo.toISOString() : "") + "&";
         url_ = url_.replace(/[?&]$/, "");
@@ -155,11 +228,11 @@ export class Client implements IClient {
         else if (pageSize !== undefined)
             url_ += "pageSize=" + encodeURIComponent("" + pageSize) + "&";
         if (dateFrom === null)
-            url_ += "dateFrom=" + encodeURIComponent(dateFrom ? "" + dateFrom : "") + "&";
+            throw new Error("The parameter 'dateFrom' cannot be null.");
         else if (dateFrom !== undefined)
             url_ += "dateFrom=" + encodeURIComponent(dateFrom ? "" + dateFrom.toISOString() : "") + "&";
         if (dateTo === null)
-            url_ += "dateTo=" + encodeURIComponent(dateTo ? "" + dateTo : "") + "&";
+            throw new Error("The parameter 'dateTo' cannot be null.");
         else if (dateTo !== undefined)
             url_ += "dateTo=" + encodeURIComponent(dateTo ? "" + dateTo.toISOString() : "") + "&";
         url_ = url_.replace(/[?&]$/, "");
@@ -405,6 +478,110 @@ export class Client implements IClient {
         }
         return _observableOf<SupplierPurchaseSumsViewDataPagedModel>(null as any);
     }
+}
+
+export class CitySaleSumsViewData implements ICitySaleSumsViewData {
+    cityId?: number;
+    name?: string | undefined;
+    profit?: number;
+    sumOfSales?: number;
+    sumOfUnits?: number;
+    sumOfTotalSalePrice?: number;
+
+    constructor(data?: ICitySaleSumsViewData) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.cityId = _data["cityId"];
+            this.name = _data["name"];
+            this.profit = _data["profit"];
+            this.sumOfSales = _data["sumOfSales"];
+            this.sumOfUnits = _data["sumOfUnits"];
+            this.sumOfTotalSalePrice = _data["sumOfTotalSalePrice"];
+        }
+    }
+
+    static fromJS(data: any): CitySaleSumsViewData {
+        data = typeof data === 'object' ? data : {};
+        let result = new CitySaleSumsViewData();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["cityId"] = this.cityId;
+        data["name"] = this.name;
+        data["profit"] = this.profit;
+        data["sumOfSales"] = this.sumOfSales;
+        data["sumOfUnits"] = this.sumOfUnits;
+        data["sumOfTotalSalePrice"] = this.sumOfTotalSalePrice;
+        return data;
+    }
+}
+
+export interface ICitySaleSumsViewData {
+    cityId?: number;
+    name?: string | undefined;
+    profit?: number;
+    sumOfSales?: number;
+    sumOfUnits?: number;
+    sumOfTotalSalePrice?: number;
+}
+
+export class CitySaleSumsViewDataPagedModel implements ICitySaleSumsViewDataPagedModel {
+    totalItems?: number;
+    items?: CitySaleSumsViewData[] | undefined;
+
+    constructor(data?: ICitySaleSumsViewDataPagedModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalItems = _data["totalItems"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(CitySaleSumsViewData.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): CitySaleSumsViewDataPagedModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new CitySaleSumsViewDataPagedModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalItems"] = this.totalItems;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface ICitySaleSumsViewDataPagedModel {
+    totalItems?: number;
+    items?: CitySaleSumsViewData[] | undefined;
 }
 
 export class DatePurchaseSumsViewData implements IDatePurchaseSumsViewData {
