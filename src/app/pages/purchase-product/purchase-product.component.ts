@@ -30,7 +30,7 @@ export class PurchaseProductComponent implements OnInit {
   @ViewChild('searchNgForm') searchNgForm: NgForm;
   searchForm: FormGroup;
 
-  displayedColumns: string[] = ['name', 'profit', 'sumOfSales', 'sumOfUnits', 'sumOfTotalSalePrice'];
+  displayedColumns: string[] = ['name', 'sumOfPurchases', 'sumOfUnits', 'sumOfTotalPurchasePrice'];
   dataSource = new MatTableDataSource<ProductPurchaseSumsViewData>();
   totalItems: number
 
