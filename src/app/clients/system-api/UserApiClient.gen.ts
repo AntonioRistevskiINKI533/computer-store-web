@@ -157,11 +157,11 @@ export class Client implements IClient {
         else if (pageSize !== undefined)
             url_ += "pageSize=" + encodeURIComponent("" + pageSize) + "&";
         if (dateFrom === null)
-            throw new Error("The parameter 'dateFrom' cannot be null.");
+            url_ += "dateFrom=" + encodeURIComponent(dateFrom ? "" + dateFrom : "") + "&";
         else if (dateFrom !== undefined)
             url_ += "dateFrom=" + encodeURIComponent(dateFrom ? "" + dateFrom.toISOString() : "") + "&";
         if (dateTo === null)
-            throw new Error("The parameter 'dateTo' cannot be null.");
+            url_ += "dateTo=" + encodeURIComponent(dateTo ? "" + dateTo : "") + "&";
         else if (dateTo !== undefined)
             url_ += "dateTo=" + encodeURIComponent(dateTo ? "" + dateTo.toISOString() : "") + "&";
         url_ = url_.replace(/[?&]$/, "");
@@ -228,11 +228,11 @@ export class Client implements IClient {
         else if (pageSize !== undefined)
             url_ += "pageSize=" + encodeURIComponent("" + pageSize) + "&";
         if (dateFrom === null)
-            throw new Error("The parameter 'dateFrom' cannot be null.");
+            url_ += "dateFrom=" + encodeURIComponent(dateFrom ? "" + dateFrom : "") + "&";
         else if (dateFrom !== undefined)
             url_ += "dateFrom=" + encodeURIComponent(dateFrom ? "" + dateFrom.toISOString() : "") + "&";
         if (dateTo === null)
-            throw new Error("The parameter 'dateTo' cannot be null.");
+            url_ += "dateTo=" + encodeURIComponent(dateTo ? "" + dateTo : "") + "&";
         else if (dateTo !== undefined)
             url_ += "dateTo=" + encodeURIComponent(dateTo ? "" + dateTo.toISOString() : "") + "&";
         url_ = url_.replace(/[?&]$/, "");
