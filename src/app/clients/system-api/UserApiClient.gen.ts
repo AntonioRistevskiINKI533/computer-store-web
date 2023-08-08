@@ -26,6 +26,14 @@ export interface IClient {
     /**
      * @param pageIndex (optional) 
      * @param pageSize (optional) 
+     * @param name (optional) 
+     * @param surname (optional) 
+     * @return Success
+     */
+    getAllCustomerSales(pageIndex: number | undefined, pageSize: number | undefined, name: string | undefined, surname: string | undefined): Observable<CustomerSaleSumsViewDataPagedModel>;
+    /**
+     * @param pageIndex (optional) 
+     * @param pageSize (optional) 
      * @param dateFrom (optional) 
      * @param dateTo (optional) 
      * @return Success
@@ -142,6 +150,77 @@ export class Client implements IClient {
     /**
      * @param pageIndex (optional) 
      * @param pageSize (optional) 
+     * @param name (optional) 
+     * @param surname (optional) 
+     * @return Success
+     */
+    getAllCustomerSales(pageIndex: number | undefined, pageSize: number | undefined, name: string | undefined, surname: string | undefined): Observable<CustomerSaleSumsViewDataPagedModel> {
+        let url_ = this.baseUrl + "/CustomerSaleSumsView/GetAllCustomerSales?";
+        if (pageIndex === null)
+            throw new Error("The parameter 'pageIndex' cannot be null.");
+        else if (pageIndex !== undefined)
+            url_ += "pageIndex=" + encodeURIComponent("" + pageIndex) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "pageSize=" + encodeURIComponent("" + pageSize) + "&";
+        if (name === null)
+            throw new Error("The parameter 'name' cannot be null.");
+        else if (name !== undefined)
+            url_ += "name=" + encodeURIComponent("" + name) + "&";
+        if (surname === null)
+            throw new Error("The parameter 'surname' cannot be null.");
+        else if (surname !== undefined)
+            url_ += "surname=" + encodeURIComponent("" + surname) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllCustomerSales(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllCustomerSales(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<CustomerSaleSumsViewDataPagedModel>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<CustomerSaleSumsViewDataPagedModel>;
+        }));
+    }
+
+    protected processGetAllCustomerSales(response: HttpResponseBase): Observable<CustomerSaleSumsViewDataPagedModel> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = CustomerSaleSumsViewDataPagedModel.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CustomerSaleSumsViewDataPagedModel>(null as any);
+    }
+
+    /**
+     * @param pageIndex (optional) 
+     * @param pageSize (optional) 
      * @param dateFrom (optional) 
      * @param dateTo (optional) 
      * @return Success
@@ -157,11 +236,11 @@ export class Client implements IClient {
         else if (pageSize !== undefined)
             url_ += "pageSize=" + encodeURIComponent("" + pageSize) + "&";
         if (dateFrom === null)
-            url_ += "dateFrom=" + encodeURIComponent(dateFrom ? "" + dateFrom : "") + "&";
+            throw new Error("The parameter 'dateFrom' cannot be null.");
         else if (dateFrom !== undefined)
             url_ += "dateFrom=" + encodeURIComponent(dateFrom ? "" + dateFrom.toISOString() : "") + "&";
         if (dateTo === null)
-            url_ += "dateTo=" + encodeURIComponent(dateTo ? "" + dateTo : "") + "&";
+            throw new Error("The parameter 'dateTo' cannot be null.");
         else if (dateTo !== undefined)
             url_ += "dateTo=" + encodeURIComponent(dateTo ? "" + dateTo.toISOString() : "") + "&";
         url_ = url_.replace(/[?&]$/, "");
@@ -228,11 +307,11 @@ export class Client implements IClient {
         else if (pageSize !== undefined)
             url_ += "pageSize=" + encodeURIComponent("" + pageSize) + "&";
         if (dateFrom === null)
-            url_ += "dateFrom=" + encodeURIComponent(dateFrom ? "" + dateFrom : "") + "&";
+            throw new Error("The parameter 'dateFrom' cannot be null.");
         else if (dateFrom !== undefined)
             url_ += "dateFrom=" + encodeURIComponent(dateFrom ? "" + dateFrom.toISOString() : "") + "&";
         if (dateTo === null)
-            url_ += "dateTo=" + encodeURIComponent(dateTo ? "" + dateTo : "") + "&";
+            throw new Error("The parameter 'dateTo' cannot be null.");
         else if (dateTo !== undefined)
             url_ += "dateTo=" + encodeURIComponent(dateTo ? "" + dateTo.toISOString() : "") + "&";
         url_ = url_.replace(/[?&]$/, "");
@@ -582,6 +661,118 @@ export class CitySaleSumsViewDataPagedModel implements ICitySaleSumsViewDataPage
 export interface ICitySaleSumsViewDataPagedModel {
     totalItems?: number;
     items?: CitySaleSumsViewData[] | undefined;
+}
+
+export class CustomerSaleSumsViewData implements ICustomerSaleSumsViewData {
+    customerId?: number;
+    name?: string | undefined;
+    surname?: string | undefined;
+    email?: string | undefined;
+    profit?: number;
+    sumOfSales?: number;
+    sumOfUnits?: number;
+    sumOfTotalSalePrice?: number;
+
+    constructor(data?: ICustomerSaleSumsViewData) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.customerId = _data["customerId"];
+            this.name = _data["name"];
+            this.surname = _data["surname"];
+            this.email = _data["email"];
+            this.profit = _data["profit"];
+            this.sumOfSales = _data["sumOfSales"];
+            this.sumOfUnits = _data["sumOfUnits"];
+            this.sumOfTotalSalePrice = _data["sumOfTotalSalePrice"];
+        }
+    }
+
+    static fromJS(data: any): CustomerSaleSumsViewData {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerSaleSumsViewData();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["customerId"] = this.customerId;
+        data["name"] = this.name;
+        data["surname"] = this.surname;
+        data["email"] = this.email;
+        data["profit"] = this.profit;
+        data["sumOfSales"] = this.sumOfSales;
+        data["sumOfUnits"] = this.sumOfUnits;
+        data["sumOfTotalSalePrice"] = this.sumOfTotalSalePrice;
+        return data;
+    }
+}
+
+export interface ICustomerSaleSumsViewData {
+    customerId?: number;
+    name?: string | undefined;
+    surname?: string | undefined;
+    email?: string | undefined;
+    profit?: number;
+    sumOfSales?: number;
+    sumOfUnits?: number;
+    sumOfTotalSalePrice?: number;
+}
+
+export class CustomerSaleSumsViewDataPagedModel implements ICustomerSaleSumsViewDataPagedModel {
+    totalItems?: number;
+    items?: CustomerSaleSumsViewData[] | undefined;
+
+    constructor(data?: ICustomerSaleSumsViewDataPagedModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalItems = _data["totalItems"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(CustomerSaleSumsViewData.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): CustomerSaleSumsViewDataPagedModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerSaleSumsViewDataPagedModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalItems"] = this.totalItems;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface ICustomerSaleSumsViewDataPagedModel {
+    totalItems?: number;
+    items?: CustomerSaleSumsViewData[] | undefined;
 }
 
 export class DatePurchaseSumsViewData implements IDatePurchaseSumsViewData {
