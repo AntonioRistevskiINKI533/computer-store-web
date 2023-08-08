@@ -32,6 +32,9 @@ import { PurchaseDateComponent } from './pages/purchase-date/purchase-date.compo
 import { PurchaseProductComponent } from './pages/purchase-product/purchase-product.component';
 import { SaleCityComponent } from './pages/sale-city/sale-city.component';
 import { SaleCustomerComponent } from './pages/sale-customer/sale-customer.component';
+import { SaleProductTypeComponent } from './pages/sale-product-type/sale-product-type.component';
+import { SaleBrandComponent } from './pages/sale-brand/sale-brand.component';
+import { SaleDayOfWeekComponent } from './pages/sale-day-of-week/sale-day-of-week.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +45,10 @@ import { SaleCustomerComponent } from './pages/sale-customer/sale-customer.compo
     PurchaseDateComponent,
     PurchaseProductComponent,
     SaleCityComponent,
-    SaleCustomerComponent
+    SaleCustomerComponent,
+    SaleBrandComponent,
+    SaleDayOfWeekComponent,
+    SaleProductTypeComponent,
   ],
   imports: [
     BrowserModule,
