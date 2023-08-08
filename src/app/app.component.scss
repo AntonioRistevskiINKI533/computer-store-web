@@ -313,16 +313,40 @@
     background-color: #125699;
   }
 
+
+  //For color when i select item in menu
+  .is-active {
+    background-color: #0d3c6a;
+  }
+  //For color when i select item in menu
+  .mat-nav-list .mat-list-item:focus,
+  .mat-action-list .mat-list-item:focus,
+  .mat-list-option:focus {
+    background-color: #0d3c6a !important;
+  }
+
   mat-drawer-content {
     height: 750px;//vidi so max min height
   }
 
-  mat-card{
+  mat-card {
     background-color: white;
     margin: 0px 10px 10px 10px;
   }
 
+  mat-divider {
+    background-color: #0f4376;
+  }
+
   //MatIcons
+
+  mat-icon {
+    margin: 7px;
+  }
+
+  .white {
+    color:white;
+  }
 
   .drawer-button {
     margin:10px

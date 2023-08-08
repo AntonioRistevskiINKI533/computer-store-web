@@ -7,55 +7,47 @@
           <b>Компјутерска продавница</b>
         </mat-card-content>
       </mat-card>
+
+      <mat-divider></mat-divider>
       
-      <mat-list-item>
-        <button mat-icon-button matListItemMeta>
-           <mat-icon>date_range</mat-icon>
-        </button>
-        <a matListItemTitle href="/sale-date">Продажби по датум</a>
+      <mat-list-item routerLink="/sale-date" [routerLinkActive]="['is-active']">
+        <mat-icon class="white">date_range</mat-icon>
+        <span class="white">Продажби по датум</span>
       </mat-list-item>
 
-      <mat-list-item>
-        <button mat-icon-button matListItemMeta>
-           <mat-icon>important_devices</mat-icon>
-        </button>
-        <a matListItemTitle href="/sale-product">Продажби по производ</a>
+      <mat-list-item routerLink="/sale-customer" [routerLinkActive]="['is-active']">
+        <mat-icon class="white">account_box</mat-icon>
+        <span class="white">Продажби по клиент</span>
       </mat-list-item>
 
-      <mat-list-item>
-        <button mat-icon-button matListItemMeta>
-          <mat-icon>account_box</mat-icon>
-        </button>
-        <a matListItemTitle href="/sale-customer">Продажби по клиент</a>
+      <mat-list-item routerLink="/sale-product" [routerLinkActive]="['is-active']">
+        <mat-icon class="white">important_devices</mat-icon>
+        <span class="white">Продажби по производ</span>
       </mat-list-item>
 
-      <mat-list-item>
-        <button mat-icon-button matListItemMeta>
-          <mat-icon>location_city</mat-icon>
-        </button>
-        <a matListItemTitle href="/sale-city">Продажби по град</a>
+      <mat-list-item routerLink="/sale-city" [routerLinkActive]="['is-active']">
+        <mat-icon class="white">location_city</mat-icon>
+        <span class="white">Продажби по град</span>
       </mat-list-item>
 
-      <mat-list-item>
-        <button mat-icon-button matListItemMeta>
-           <mat-icon>date_range</mat-icon>
-        </button>
-        <a matListItemTitle href="/purchase-date">Набавки по датум</a>
+      <mat-divider></mat-divider>
+
+      <mat-list-item routerLink="/purchase-date" [routerLinkActive]="['is-active']">
+        <mat-icon class="white">date_range</mat-icon>
+        <span class="white">Набавки по датум</span>
       </mat-list-item>
 
-      <mat-list-item>
-        <button mat-icon-button matListItemMeta>
-          <mat-icon>store</mat-icon>
-        </button>
-        <a matListItemTitle href="/purchase-supplier">Набавки по набавувач</a>
+      <mat-list-item routerLink="/purchase-supplier" [routerLinkActive]="['is-active']">
+        <mat-icon class="white">store</mat-icon>
+        <span class="white">Набавки по набавувач</span>
       </mat-list-item>
 
-      <mat-list-item>
-        <button mat-icon-button matListItemMeta>
-          <mat-icon>important_devices</mat-icon>
-        </button>
-        <a matListItemTitle href="/purchase-product">Набавки по производ</a>
+      <mat-list-item routerLink="/purchase-product" [routerLinkActive]="['is-active']">
+        <mat-icon class="white">important_devices</mat-icon>
+        <span class="white">Набавки по производ</span>
       </mat-list-item>
+
+      <mat-divider></mat-divider>
 
     </mat-nav-list>
 
