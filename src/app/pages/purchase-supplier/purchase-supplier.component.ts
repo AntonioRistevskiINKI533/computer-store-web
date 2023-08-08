@@ -49,7 +49,7 @@ export class PurchaseSupplierComponent implements OnInit {
   @ViewChild('searchNgForm') searchNgForm: NgForm;
   searchForm: FormGroup;
 
-  displayedColumns: string[] = ['name', 'sumOfPurchases', 'sumOfUnits', 'sumOfTotalPurchasePrice'];
+  displayedColumns: string[] = ['name', 'email', 'sumOfPurchases', 'sumOfUnits', 'sumOfTotalPurchasePrice'];
   dataSource = new MatTableDataSource<SupplierPurchaseSumsViewData>();
   totalItems: number
 
