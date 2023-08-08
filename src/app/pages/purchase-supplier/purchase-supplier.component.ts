@@ -6,17 +6,37 @@ import { SupplierPurchaseSumsViewService } from 'src/app/services/supplier-purch
 import { SupplierPurchaseSumsViewData } from 'src/app/clients/system-api/UserApiClient.gen';
 
 import {
-  ChartComponent,
-  ApexNonAxisChartSeries,
-  ApexResponsive,
   ApexChart,
+  ApexAxisChartSeries,
+  ChartComponent,
+  ApexDataLabels,
+  ApexPlotOptions,
+  ApexYAxis,
+  ApexLegend,
+  ApexGrid
 } from "ng-apexcharts";
 
+type ApexXAxis = {
+  type?: "category" | "datetime" | "numeric";
+  categories?: any;
+  labels?: {
+    style?: {
+      colors?: string | string[];
+      fontSize?: string;
+    };
+  };
+};
+
 export type ChartOptions = {
-  series: ApexNonAxisChartSeries;
+  series: ApexAxisChartSeries;
   chart: ApexChart;
-  responsive: ApexResponsive[];
-  labels: any;
+  dataLabels: ApexDataLabels;
+  plotOptions: ApexPlotOptions;
+  yaxis: ApexYAxis;
+  xaxis: ApexXAxis;
+  grid: ApexGrid;
+  colors: string[];
+  legend: ApexLegend;
 };
 
 @Component({
@@ -46,26 +66,73 @@ export class PurchaseSupplierComponent implements OnInit {
     ) 
     { 
       this.chartOptions = {
-        series: [],//[44, 55, 13, 43, 22],
-        chart: {
-          width: 1200,
-          height: 480,
-          type: "pie"
-        },
-        labels: [],//["Team A", "Team B", "Team C", "Team D", "Team E"],
-        responsive: [
+        series: [
           {
-            breakpoint: 480,
-            options: {
-              chart: {
-                width: 200
-              },
-              legend: {
-                position: "bottom"
-              }
+            name: "distibuted",
+            data: []//[21, 22, 10, 28, 16, 21, 13, 30]
+          }
+        ],
+        chart: {
+          height: 450,
+          type: "bar",
+          events: {
+            click: function(chart, w, e) {
+              // console.log(chart, w, e)
             }
           }
-        ]
+        },
+        colors: [
+          "#008FFB",
+          "#00E396",
+          "#FEB019",
+          "#FF4560",
+          "#775DD0",
+          "#546E7A",
+          //"#26a69a",
+          //"#D10CE8"
+        ],
+        plotOptions: {
+          bar: {
+            columnWidth: "45%",
+            distributed: true
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        legend: {
+          show: false
+        },
+        grid: {
+          show: false
+        },
+        xaxis: {
+          categories: [
+            ["John", "Doe"],
+            ["Joe", "Smith"],
+            ["Jake", "Williams"],
+            "Amber",
+            ["Peter", "Brown"],
+            ["Mary", "Evans"],
+            //["David", "Wilson"],
+            //["Lily", "Roberts"]
+          ],
+          labels: {
+            style: {
+              colors: [
+                "#008FFB",
+                "#00E396",
+                "#FEB019",
+                "#FF4560",
+                "#775DD0",
+                "#546E7A",
+                //"#26a69a",
+                //"#D10CE8"
+              ],
+              fontSize: "12px"
+            }
+          }
+        }
       };
     }
 
@@ -98,25 +165,51 @@ export class PurchaseSupplierComponent implements OnInit {
   getAllForPieChart(column: string){
     this._supplierPurchaseSumsViewService.getAll(0, 9999999, "").subscribe((data) => {
 
-      this.chartOptions.series! = [];
-      this.chartOptions.labels! = [];
+      this.chartOptions.series![0].data = [];
+      this.chartOptions.xaxis! = {
+        categories: [
+          //["John", "Doe"],
+          //["Joe", "Smith"],
+          //["Jake", "Williams"],
+          //"Amber",
+          //["Peter", "Brown"],
+          //["Mary", "Evans"],
+          //["David", "Wilson"],
+          //["Lily", "Roberts"]
+        ],
+        labels: {
+          style: {
+            colors: [
+              "#008FFB",
+              "#00E396",
+              "#FEB019",
+              "#FF4560",
+              "#775DD0",
+              "#546E7A",
+              //"#26a69a",
+              //"#D10CE8"
+            ],
+            fontSize: "12px"
+          }
+        }
+      }
 
       for (var i = 0; i < data.items!.length; i++) {
         
         if (column == "sumOfTotalPurchasePrice") {
-          this.chartOptions.series!.push(data.items![i].sumOfTotalPurchasePrice as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);
+          this.chartOptions.series![0].data.push(data.items![i].sumOfTotalPurchasePrice as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);
         }
         else if (column == "sumOfPurchases") {
-          this.chartOptions.series!.push(data.items![i].sumOfPurchases as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);
+          this.chartOptions.series![0].data.push(data.items![i].sumOfPurchases as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);
         }
         else if (column == "sumOfUnits") {
-          this.chartOptions.series!.push(data.items![i].sumOfUnits as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);
+          this.chartOptions.series![0].data.push(data.items![i].sumOfUnits as number & { x: any; y: any; fillColor?: string | undefined; strokeColor?: string | undefined; meta?: any; goals?: any; } & [number, number | null] & [number, (number | null)[]]);
         }
 
-        this.chartOptions.labels!.push(data.items![i].name);
+        this.chartOptions.xaxis!.categories!.push([data.items![i].name]);
       }
       
-      this.chart.render();
+      this.chart.resetSeries()
     });
   }
 }
