@@ -46,10 +46,10 @@
             <td mat-cell *matCellDef="let element"> {{element.email}} </td>
           </ng-container>
       
-          <!-- sumOfPurchases Column -->
-          <ng-container matColumnDef="sumOfPurchases">
+          <!-- sumOfSales Column -->
+          <ng-container matColumnDef="sumOfSales">
             <th mat-header-cell *matHeaderCellDef> Трансакции </th>
-            <td mat-cell *matCellDef="let element"> {{element.sumOfPurchases}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.sumOfSales}} </td>
           </ng-container>
       
           <!-- sumOfUnits Column -->
@@ -58,10 +58,10 @@
             <td mat-cell *matCellDef="let element"> {{element.sumOfUnits}} </td>
           </ng-container>
       
-          <!-- sumOfTotalPurchasePrice Column -->
-          <ng-container matColumnDef="sumOfTotalPurchasePrice">
+          <!-- sumOfTotalSalePrice Column -->
+          <ng-container matColumnDef="sumOfTotalSalePrice">
             <th mat-header-cell *matHeaderCellDef> Приход </th>
-            <td mat-cell *matCellDef="let element"> {{element.sumOfTotalPurchasePrice}} ден. </td>
+            <td mat-cell *matCellDef="let element"> {{element.sumOfTotalSalePrice}} ден. </td>
           </ng-container>
       
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -123,12 +123,12 @@
         Профит
       </button>
 
-      <button (click)="getAll('sumOfTotalPurchasePrice')" mat-raised-button color="primary">
+      <button (click)="getAll('sumOfTotalSalePrice')" mat-raised-button color="primary">
         <mat-icon>money</mat-icon>
         Приход
       </button>
     
-      <button (click)="getAll('sumOfPurchases')" mat-raised-button color="primary">
+      <button (click)="getAll('sumOfSales')" mat-raised-button color="primary">
         <mat-icon>transform</mat-icon>
         Број на трансакции
       </button>

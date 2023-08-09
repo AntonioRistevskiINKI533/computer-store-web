@@ -3,7 +3,7 @@ import { NgForm, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { CustomerSaleSumsViewService } from 'src/app/services/customer-sale-sums-view.service';
-import { SupplierPurchaseSumsViewData } from 'src/app/clients/system-api/UserApiClient.gen';
+import { CustomerSaleSumsViewData } from 'src/app/clients/system-api/UserApiClient.gen';
 
 import {
   ApexChart,
@@ -49,8 +49,8 @@ export class SaleCustomerComponent implements OnInit {
   @ViewChild('searchNgForm') searchNgForm: NgForm;
   searchForm: FormGroup;
 
-  displayedColumns: string[] = ['name', 'email', 'sumOfPurchases', 'sumOfUnits', 'sumOfTotalPurchasePrice'];
-  dataSource = new MatTableDataSource<SupplierPurchaseSumsViewData>();
+  displayedColumns: string[] = ['name', 'email', 'sumOfSales', 'sumOfUnits', 'sumOfTotalSalePrice'];
+  dataSource = new MatTableDataSource<CustomerSaleSumsViewData>();
   totalItems: number
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -151,7 +151,7 @@ export class SaleCustomerComponent implements OnInit {
 
   getAll(column: string = "sumOfTotalSalePrice"){
     this._customerSaleSumsViewService.getAll(this.paginator.pageIndex, this.paginator.pageSize, this.name, this.surname).subscribe((data) => {
-      this.dataSource = new MatTableDataSource<SupplierPurchaseSumsViewData>(data.items!);
+      this.dataSource = new MatTableDataSource<CustomerSaleSumsViewData>(data.items!);
       this.totalItems = data.totalItems!;
 
       this.chartOptions.series![0].data = [];
