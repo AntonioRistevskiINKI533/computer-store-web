@@ -150,6 +150,15 @@ export class SaleCustomerComponent implements OnInit {
   }
 
   getAll(column: string = "sumOfTotalSalePrice"){
+
+    if (this.name == null){
+      this.name = ""
+    }
+
+    if (this.surname == null){
+      this.surname = ""
+    }
+
     this._customerSaleSumsViewService.getAll(this.paginator.pageIndex, this.paginator.pageSize, this.name, this.surname).subscribe((data) => {
       this.dataSource = new MatTableDataSource<CustomerSaleSumsViewData>(data.items!);
       this.totalItems = data.totalItems!;
